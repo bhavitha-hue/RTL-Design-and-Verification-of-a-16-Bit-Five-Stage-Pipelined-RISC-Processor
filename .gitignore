@@ -1,0 +1,11 @@
+# Simulation files
+*.vcd
+*.out
+*.sim
+
+# Executables
+processor_sim
+*.exe
+
+# Logs
+*.log
