@@ -221,7 +221,7 @@ Data memory pre-loaded values:
 |-----------------|----------------------------------------------|
 | `zero_flag`     | `1` when result is `0x0000` — used by BEQ/BNE |
 | `carry_flag`    | Unsigned overflow — carry out of bit 15      |
-| `negative_flag` | Sign bit of result (`result[15]`)            |
+| `negative_flag` | Sign bit of MSB (`result[15]`)            |
 | `overflow_flag` | Signed overflow for ADD and SUB              |
 
 ---
