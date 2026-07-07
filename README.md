@@ -6,7 +6,7 @@ This project builds a fully functional **16-bit RISC processor** from scratch in
 
 - 5-stage pipeline architecture (IF → ID → EX → MEM → WB)
 - Custom 16-bit ISA with 15 instructions
-- R-Type, I-Type, and J-Type instruction formats
+- R-Type, I-Type, B-Type and J-Type instruction formats
 - 8 general-purpose registers (R0 hardwired to zero)
 - Full data forwarding to eliminate RAW stalls
 - Load-use hazard detection with automatic stall insertion
