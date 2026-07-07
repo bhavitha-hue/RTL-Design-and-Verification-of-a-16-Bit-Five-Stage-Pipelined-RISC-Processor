@@ -197,9 +197,9 @@ Data memory pre-loaded values:
 
 | Address  | Value | Description       |
 |----------|-------|-------------------|
-| mem[20]  | 10    | Test operand A    |
-| mem[21]  | 5     | Test operand B    |
-| mem[30]  | —     | STORE target      |
+| mem[35]  | 10    | Test operand A    |
+| mem[40]  | 5     | Test operand B    |
+| mem[45]  | —     | STORE target      |
 
 ---
 
