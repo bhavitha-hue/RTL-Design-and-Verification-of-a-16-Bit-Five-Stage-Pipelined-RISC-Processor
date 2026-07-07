@@ -116,28 +116,29 @@ The complete design is implemented using **Verilog HDL** and verified through si
 ```
 R-Type:  [15:12] opcode | [11:9] rd | [8:6] rs1 | [5:3] rs2 | [2:0] unused
 I-Type:  [15:12] opcode | [11:9] rd | [8:0] imm9
+B-Type:  [15:12] Opcode | [11:9] rs1 | [8:6] rs2 | [5:0] offset6
 J-Type:  [15:12] opcode | [11:0] imm12
 ```
 
 ### Opcode Table
 
-| Opcode | Mnemonic | Type | Operation                         |
-|--------|----------|------|-----------------------------------|
-| `0000` | ADD      | R    | `rd = rs1 + rs2`                  |
-| `0001` | SUB      | R    | `rd = rs1 - rs2`                  |
-| `0010` | AND      | R    | `rd = rs1 & rs2`                  |
-| `0011` | OR       | R    | `rd = rs1 \| rs2`                 |
-| `0100` | LOAD     | I    | `rd = mem[imm9]`                  |
-| `0101` | STORE    | I    | `mem[imm9] = rd`                  |
-| `0110` | BEQ      | I    | `if rs1==rs2: PC = PC + imm9`     |
-| `0111` | JMP      | J    | `PC = imm12`                      |
-| `1000` | XOR      | R    | `rd = rs1 ^ rs2`                  |
-| `1001` | NOT      | R    | `rd = ~rs1`                       |
-| `1010` | SHL      | R    | `rd = rs1 << rs2[3:0]`            |
-| `1011` | SHR      | R    | `rd = rs1 >> rs2[3:0]`            |
-| `1100` | ADDI     | I    | `rd = rs1 + imm9 (sign-extended)` |
-| `1101` | BNE      | I    | `if rs1!=rs2: PC = PC + imm9`     |
-| `1111` | HALT     | J    | Stop execution                    |
+| Opcode | Mnemonic | Type | Operation                                          |
+|--------|----------|------|----------------------------------------------------|
+| `0000` | ADD      | R    | `rd = rs1 + rs2`                                   |
+| `0001` | SUB      | R    | `rd = rs1 - rs2`                                   |
+| `0010` | AND      | R    | `rd = rs1 & rs2`                                   |
+| `0011` | OR       | R    | `rd = rs1 \| rs2`                                  |
+| `0100` | LOAD     | I    | `rd = mem[imm9]`                                   |
+| `0101` | STORE    | I    | `mem[imm9] = rd`                                   |
+| `0110` | BEQ      | B    | `if( rs1==rs2) PC = PC + sign_extend(offset6)`     |
+| `0111` | JMP      | J    | `PC = imm12`                                       |
+| `1000` | XOR      | R    | `rd = rs1 ^ rs2`                                   |
+| `1001` | NOT      | R    | `rd = ~rs1`                                        |
+| `1010` | SHL      | R    | `rd = rs1 << rs2[3:0]`                             |
+| `1011` | SHR      | R    | `rd = rs1 >> rs2[3:0]`                             |
+| `1100` | ADDI     | I    | `rd = rs1 + imm9 (sign-extended)`                  |
+| `1101` | BNE      | B    | `if (rs1!=rs2)PC = PC + sign_extend(offset6)`      |
+| `1111` | HALT     | J    | Stop execution                                     |
 
 ---
 
