@@ -299,6 +299,38 @@ Observed signals in GTKWave:
 
 ---
 
+## FPGA Synthesis Results
+
+# RESOUCE UTILIZATION
+
+| Resource        | Used    | Available | Utilization |
+| --------------- | ------- | --------- | ----------- |
+| Slice LUTs      | **396** | 20,800    | **1.90%**   |
+| Slice Registers | **296** | 41,600    | **0.71%**   |
+| F7 Muxes        | **80**  | 16,300    | **0.49%**   |
+| F8 Muxes        | **16**  | 8,150     | **0.20%**   |
+| Bonded IOB      | **3**   | 106       | **2.83%**   |
+| BUFGCTRL        | **1**   | 32        | **3.13%**   |
+
+# POWER ANALYSIS
+| Metric               | Value             |
+| -------------------- | ----------------- |
+| Total On-Chip Power  | **0.082 W**       |
+| Static Power         | **0.072 W (88%)** |
+| Dynamic Power        | **0.010 W (12%)** |
+| Junction Temperature | **25.4°C**        |
+| Ambient Temperature  | **25°C**          |
+
+# DYNAMIC POWER BREAKDOWN
+| Component | Power        |
+| --------- | ------------ |
+| Clocks    | **0.004 W**  |
+| Signals   | **0.003 W**  |
+| Logic     | **0.003 W**  |
+| I/O       | **<0.001 W** |
+
+
+---
 ## Tools Used
 
 | Tool            | Purpose               |
