@@ -19,7 +19,7 @@ module pipeline_id_ex(
     input [1:0] branch_in,// 2-bit for BEQ/BNE
     input jump_in,
     input halt_in,
-
+    
     output reg [15:0] pc_out,
     output reg [15:0] read_data1_out,
     output reg [15:0] read_data2_out,
@@ -53,7 +53,7 @@ always @(posedge clk) begin
         reg_write_out <= 1'b0; // no writeback
         mem_read_out <= 1'b0;
         mem_write_out <= 1'b0;
-        branch_out <= 2'b00;   // no branch
+        branch_out <= 2'b00;    // no branch
         jump_out <= 1'b0;
         halt_out <= 1'b0;
     end

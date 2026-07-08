@@ -14,7 +14,7 @@ module hazard_detection_unit(
 );
     wire load_use_hazard;
     wire branch_taken;
-    assign load_use_hazard = id_ex_mem_read &&((id_ex_rd == if_id_rs1) ||(id_ex_rd == if_id_rs2));
+    assign load_use_hazard =id_ex_mem_read &&(id_ex_rd != 3'b000) &&((id_ex_rd == if_id_rs1) ||(id_ex_rd == if_id_rs2));
     assign branch_taken =((ex_mem_branch == 2'b01) &&  ex_mem_zero_flag) ||  // BEQ 
                          ((ex_mem_branch == 2'b10) && !ex_mem_zero_flag) ||  // BNE 
                            ex_mem_jump;   // JUMP 

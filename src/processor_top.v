@@ -9,8 +9,6 @@ wire flush_id_ex;
 wire pc_write;
 wire [1:0] forward_a;
 wire [1:0] forward_b;
-
-// IF STAGE
 wire [15:0] pc;
 wire [15:0] pc_next;
 wire pc_load;
@@ -150,6 +148,7 @@ assign wb_rd = mem_wb_rd;
 assign wb_reg_write = mem_wb_reg_write;
 
 wire [15:0] imm_extended = {{7{id_ex_immediate[8]}}, id_ex_immediate};
+wire [15:0] branch_target;
 wire [15:0] ex_mem_alu_result;
 wire [15:0] alu_a =(forward_a == 2'b10) ? ex_mem_alu_result :
                    (forward_a == 2'b01) ? wb_write_data     :
@@ -158,7 +157,9 @@ wire [15:0] alu_b_reg =(forward_b == 2'b10) ? ex_mem_alu_result :
                        (forward_b == 2'b01) ? wb_write_data     :
                                             id_ex_read_data2;
 wire [15:0] alu_b = id_ex_alu_src ? imm_extended : alu_b_reg;
-wire [15:0] branch_target = id_ex_pc + imm_extended;
+assign branch_target =
+       id_ex_pc +
+       {{10{id_ex_immediate[5]}}, id_ex_immediate[5:0]};
 
 wire [15:0] alu_result;
 wire zero_flag, carry_flag, negative_flag, overflow_flag;
@@ -187,7 +188,7 @@ wire ex_mem_jump, ex_mem_halt;
 pipeline_ex_mem EX_MEM (
     .clk (clk),
     .reset (reset),
-    .stall (stall),
+    .stall (1'b0),
     .flush (1'b0),
     .pc_branch_in (branch_target),
     .alu_result_in (alu_result),
@@ -239,7 +240,7 @@ data_memory DM (
 pipeline_mem_wb MEM_WB (
     .clk (clk),
     .reset (reset),
-    .stall (stall),
+    .stall (1'b0),
     .flush (1'b0),
     .pc_in (ex_mem_pc_branch),
     .memory_data_in (memory_data),

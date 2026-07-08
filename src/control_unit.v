@@ -13,18 +13,18 @@ module control_unit(
 );
 always @(*) begin
     alu_op = 4'b0000;
-    alu_src = 1'b0; // default rs2
     reg_write = 1'b0;
+    alu_src = 1'b0;
     mem_read = 1'b0;
+    mem_to_reg = 1'b0;
     mem_write = 1'b0;
-    mem_to_reg= 1'b0;
-    branch = 2'b00; 
     jump = 1'b0;
     halt = 1'b0;
+    branch = 2'b00;
     invalid_op = 1'b0;
 
     case(opcode)
-
+       
         4'b0000: begin // ADD
             alu_op = 4'b0000;
             reg_write = 1'b1;
