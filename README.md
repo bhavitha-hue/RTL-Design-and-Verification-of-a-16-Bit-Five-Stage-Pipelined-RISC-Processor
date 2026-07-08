@@ -6,7 +6,7 @@ This project builds a fully functional **16-bit RISC processor** from scratch in
 
 - 5-stage pipeline architecture (IF → ID → EX → MEM → WB)
 - Custom 16-bit ISA with 15 instructions
-- R-Type, I-Type, and J-Type instruction formats
+- R-Type, I-Type, B-Type and J-Type instruction formats
 - 8 general-purpose registers (R0 hardwired to zero)
 - Full data forwarding to eliminate RAW stalls
 - Load-use hazard detection with automatic stall insertion
@@ -116,28 +116,29 @@ The complete design is implemented using **Verilog HDL** and verified through si
 ```
 R-Type:  [15:12] opcode | [11:9] rd | [8:6] rs1 | [5:3] rs2 | [2:0] unused
 I-Type:  [15:12] opcode | [11:9] rd | [8:0] imm9
+B-Type:  [15:12] Opcode | [11:9] rs1 | [8:6] rs2 | [5:0] offset6
 J-Type:  [15:12] opcode | [11:0] imm12
 ```
 
 ### Opcode Table
 
-| Opcode | Mnemonic | Type | Operation                         |
-|--------|----------|------|-----------------------------------|
-| `0000` | ADD      | R    | `rd = rs1 + rs2`                  |
-| `0001` | SUB      | R    | `rd = rs1 - rs2`                  |
-| `0010` | AND      | R    | `rd = rs1 & rs2`                  |
-| `0011` | OR       | R    | `rd = rs1 \| rs2`                 |
-| `0100` | LOAD     | I    | `rd = mem[imm9]`                  |
-| `0101` | STORE    | I    | `mem[imm9] = rd`                  |
-| `0110` | BEQ      | I    | `if rs1==rs2: PC = PC + imm9`     |
-| `0111` | JMP      | J    | `PC = imm12`                      |
-| `1000` | XOR      | R    | `rd = rs1 ^ rs2`                  |
-| `1001` | NOT      | R    | `rd = ~rs1`                       |
-| `1010` | SHL      | R    | `rd = rs1 << rs2[3:0]`            |
-| `1011` | SHR      | R    | `rd = rs1 >> rs2[3:0]`            |
-| `1100` | ADDI     | I    | `rd = rs1 + imm9 (sign-extended)` |
-| `1101` | BNE      | I    | `if rs1!=rs2: PC = PC + imm9`     |
-| `1111` | HALT     | J    | Stop execution                    |
+| Opcode | Mnemonic | Type | Operation                                          |
+|--------|----------|------|----------------------------------------------------|
+| `0000` | ADD      | R    | `rd = rs1 + rs2`                                   |
+| `0001` | SUB      | R    | `rd = rs1 - rs2`                                   |
+| `0010` | AND      | R    | `rd = rs1 & rs2`                                   |
+| `0011` | OR       | R    | `rd = rs1 \| rs2`                                  |
+| `0100` | LOAD     | I    | `rd = mem[imm9]`                                   |
+| `0101` | STORE    | I    | `mem[imm9] = rd`                                   |
+| `0110` | BEQ      | B    | `if( rs1==rs2) PC = PC + sign_extend(offset6)`     |
+| `0111` | JMP      | J    | `PC = imm12`                                       |
+| `1000` | XOR      | R    | `rd = rs1 ^ rs2`                                   |
+| `1001` | NOT      | R    | `rd = ~rs1`                                        |
+| `1010` | SHL      | R    | `rd = rs1 << rs2[3:0]`                             |
+| `1011` | SHR      | R    | `rd = rs1 >> rs2[3:0]`                             |
+| `1100` | ADDI     | I    | `rd = rs1 + imm9 (sign-extended)`                  |
+| `1101` | BNE      | B    | `if (rs1!=rs2)PC = PC + sign_extend(offset6)`      |
+| `1111` | HALT     | J    | Stop execution                                     |
 
 ---
 
@@ -183,7 +184,7 @@ Resolution:
 
 ### Sample Waveform
 
-![Waveform](docs/PROCESSOR_WAVEFORM.png)
+![Waveform](docs/PROCESSOR_WAVE2.png)
 
 ## Inventory — Initial Register State
 
@@ -196,9 +197,9 @@ Data memory pre-loaded values:
 
 | Address  | Value | Description       |
 |----------|-------|-------------------|
-| mem[20]  | 10    | Test operand A    |
-| mem[21]  | 5     | Test operand B    |
-| mem[30]  | —     | STORE target      |
+| mem[35]  | 10    | Test operand A    |
+| mem[40]  | 5     | Test operand B    |
+| mem[45]  | —     | STORE target      |
 
 ---
 
@@ -221,7 +222,7 @@ Data memory pre-loaded values:
 |-----------------|----------------------------------------------|
 | `zero_flag`     | `1` when result is `0x0000` — used by BEQ/BNE |
 | `carry_flag`    | Unsigned overflow — carry out of bit 15      |
-| `negative_flag` | Sign bit of result (`result[15]`)            |
+| `negative_flag` | Sign bit of MSB (`result[15]`)            |
 | `overflow_flag` | Signed overflow for ADD and SUB              |
 
 ---
@@ -293,11 +294,43 @@ Observed signals in GTKWave:
 
 # Testbench Results
 
-![Testbench Results ](docs/PROCESSOR_TB.png)
+![Testbench Results ](docs/PROCESSOR_TB2.png)
 
 
 ---
 
+## FPGA Synthesis Results
+
+### RESOUCE UTILIZATION
+
+| Resource        | Used    | Available | Utilization |
+| --------------- | ------- | --------- | ----------- |
+| Slice LUTs      | **396** | 20,800    | **1.90%**   |
+| Slice Registers | **296** | 41,600    | **0.71%**   |
+| F7 Muxes        | **80**  | 16,300    | **0.49%**   |
+| F8 Muxes        | **16**  | 8,150     | **0.20%**   |
+| Bonded IOB      | **3**   | 106       | **2.83%**   |
+| BUFGCTRL        | **1**   | 32        | **3.13%**   |
+
+### POWER ANALYSIS
+| Metric               | Value             |
+| -------------------- | ----------------- |
+| Total On-Chip Power  | **0.082 W**       |
+| Static Power         | **0.072 W (88%)** |
+| Dynamic Power        | **0.010 W (12%)** |
+| Junction Temperature | **25.4°C**        |
+| Ambient Temperature  | **25°C**          |
+
+### DYNAMIC POWER BREAKDOWN
+| Component | Power        |
+| --------- | ------------ |
+| Clocks    | **0.004 W**  |
+| Signals   | **0.003 W**  |
+| Logic     | **0.003 W**  |
+| I/O       | **<0.001 W** |
+
+
+---
 ## Tools Used
 
 | Tool            | Purpose               |
@@ -398,4 +431,4 @@ Project: 16-Bit Pipelined RISC Processor using Verilog HDL
 
 ✔ 4-Flag ALU — zero, carry, negative, overflow
 
-✔ Fully Simulated and Verified — 7/7 test cases passing
+✔ Fully Simulated and Verified — 10/10 test cases passing
