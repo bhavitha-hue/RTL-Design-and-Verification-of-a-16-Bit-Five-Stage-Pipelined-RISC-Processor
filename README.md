@@ -301,7 +301,7 @@ Observed signals in GTKWave:
 
 ## FPGA Synthesis Results
 
-# RESOUCE UTILIZATION
+### RESOUCE UTILIZATION
 
 | Resource        | Used    | Available | Utilization |
 | --------------- | ------- | --------- | ----------- |
@@ -312,7 +312,7 @@ Observed signals in GTKWave:
 | Bonded IOB      | **3**   | 106       | **2.83%**   |
 | BUFGCTRL        | **1**   | 32        | **3.13%**   |
 
-# POWER ANALYSIS
+### POWER ANALYSIS
 | Metric               | Value             |
 | -------------------- | ----------------- |
 | Total On-Chip Power  | **0.082 W**       |
@@ -321,7 +321,7 @@ Observed signals in GTKWave:
 | Junction Temperature | **25.4°C**        |
 | Ambient Temperature  | **25°C**          |
 
-# DYNAMIC POWER BREAKDOWN
+### DYNAMIC POWER BREAKDOWN
 | Component | Power        |
 | --------- | ------------ |
 | Clocks    | **0.004 W**  |
