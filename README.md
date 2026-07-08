@@ -184,7 +184,7 @@ Resolution:
 
 ### Sample Waveform
 
-![Waveform](docs/PROCESSOR_WAVEFORM.png)
+![Waveform](docs/PROCESSOR_WAVE2.png)
 
 ## Inventory — Initial Register State
 
@@ -294,7 +294,7 @@ Observed signals in GTKWave:
 
 # Testbench Results
 
-![Testbench Results ](docs/PROCESSOR_TB.png)
+![Testbench Results ](docs/PROCESSOR_TB2.png)
 
 
 ---
@@ -399,4 +399,4 @@ Project: 16-Bit Pipelined RISC Processor using Verilog HDL
 
 ✔ 4-Flag ALU — zero, carry, negative, overflow
 
-✔ Fully Simulated and Verified — 7/7 test cases passing
+✔ Fully Simulated and Verified — 10/10 test cases passing
