@@ -1,8 +1,8 @@
-# 16-Bit Pipelined RISC Processor
+# 16-Bit Pipelined Processor
 
 ## Project Overview
 
-This project builds a fully functional **16-bit RISC processor** from scratch in Verilog HDL, featuring:
+This project builds a fully functional **16-bit processor** from scratch in Verilog HDL, featuring:
 
 - 5-stage pipeline architecture (IF → ID → EX → MEM → WB)
 - Custom 16-bit ISA with 15 instructions
