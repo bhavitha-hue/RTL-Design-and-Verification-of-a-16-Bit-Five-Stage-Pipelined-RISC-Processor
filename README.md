@@ -21,10 +21,10 @@ The complete design is implemented using **Verilog HDL** and verified through si
 
 ## System Architecture
 
-```
+
 ![Flow Chart](docs/PROCESSOR_FLOW.jpeg)
 
-```
+
 
 ### Major Modules
 
